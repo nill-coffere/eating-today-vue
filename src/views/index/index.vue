@@ -2,20 +2,20 @@
 	<div class="index">
 		<el-row class="index-header">
 			<el-col :span="4" class="h-100">
-				<div class="index-header-right"></div>
+				<div class="index-header-right"></div> 
 			</el-col>
 			<el-col :span="16" class="h-100">
 				<div class="index-header-mid">
 					<div class="index-header-mid-right">
-						<div class="index-header-mid-right-log"><img src="../../assets/logo.png" /></div>
+						<div class="index-header-mid-right-log" v-on:click="navigation()"><img src="../../assets/logo.png" /></div>
 						<div class="index-header-mid-right-nav">
 							<el-button type="text">怎么吃</el-button>
 							<el-button type="text">吃什么</el-button>
 						</div>
 					</div>
 					<div class="index-header-mid-left">
-						<el-button type="primary" size="small">登录</el-button>
-						<el-button type="primary" size="small">注册</el-button>
+						<el-button type="primary" size="small" v-on:click="login()">登录</el-button>
+						<el-button type="primary" size="small" v-on:click="register()">注册</el-button>
 					</div>
 				</div>
 			</el-col>
@@ -29,7 +29,9 @@
 			</el-col>
 			<el-col :span="16" class="h-100">
 				<div class="index-list-mid">
-					<navigation ref="navigation"></navigation>
+					<keep-alive>
+						<component :is="currentTabComponent" @switchMenu="switchMenu"></component>
+					</keep-alive>
 				</div>
 			</el-col>
 			<el-col :span="4" class="h-100">
@@ -51,14 +53,38 @@
 </template>
 
 <script>
-	import navigation from '../navigation/index.vue'
+	
+	import navigation from '../navigation/index.vue';
+	import login from '../login/index.vue';
+	import register from  '../register/index.vue';
+	import navigationDetail from '../navigation-detail';
+	
 	export default{
-		components: {navigation},
-		data:{
-			
+		components: {
+			navigation,
+			login,
+			register,
+			navigationDetail
+		},
+		data(){
+			return {
+				currentTabComponent: 'navigation',
+				searchText: '',
+			}
 		},
 		methods:{
-			
+			login(){
+				this.currentTabComponent = 'login';
+			},
+			register(){
+				this.currentTabComponent = 'register';
+			},
+			navigation(){
+				this.currentTabComponent = 'navigation';
+			},
+			switchMenu(componentName){
+				this.currentTabComponent = componentName;
+			}
 		},
 	}
 	
@@ -78,7 +104,7 @@
 			width: 100%;
 			height: 5%;
 			background-color: #FFFFFF;
-			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			box-shadow: 0 0.25rem 0.5rem 0 rgba(0, 0, 0, 0.2), 0 0.375rem 1.25rem 0 rgba(0, 0, 0, 0.19);
 
 			.div {
 				height: 100%;
@@ -97,12 +123,13 @@
 					width: 70%;
 					height: 100%;
 					display: inline-block;
-					font-size: 20px;
+					font-size: 1.25rem;
 
 					.index-header-mid-right-log {
 						display: inline-block;
 						width: 8%;
 						height: 100%;
+						cursor: pointer;
 						img {
 							width: 100%;
 							height: 100%;

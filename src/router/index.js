@@ -8,10 +8,28 @@ const routes = [{
 	path: '/',
 	name: 'Index',
 	component: () => import('@/views/index'),
-	children:[
-		{path:'/navigation', name: 'navigation', component: () => import('@/views/navigation')}
+	children: [{
+			path: '/navigation',
+			name: 'navigation',
+			component: () => import('@/views/navigation')
+		},
+		{
+			path: '/navigation-detail',
+			name: 'navigation-detail',
+			component: () => import('@/views/navigation-detail')
+		},
+		{
+			path: '/login',
+			name: 'login',
+			component: () => import('@/views/login')
+		},
+		{
+			path: '/register',
+			name: 'register',
+			component: () => import('@/views/register')
+		}
 	]
-} ]
+}]
 
 const router = new VueRouter({
 	routes
